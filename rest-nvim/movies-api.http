@@ -1,0 +1,29 @@
+GET https://localhost:5001/api/movies
+
+POST https://localhost:5001/api/movies
+Content-Type: application/json
+
+{
+  "id": 9,
+  "title": "asd2",
+  "genre": "Comics",
+  "rating": "9.2",
+  "releaseDate": "2020-08-27T16:17:24.4346957+03:00",
+  "imageUrl": "images/src",
+  "owner": "swn"
+}
+
+PUT https://localhost:5001/api/movies/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "asd22",
+  "genre": "Comics",
+  "rating": "9.2",
+  "releaseDate": "2020-08-27T16:17:24.4346957+03:00",
+  "imageUrl": "images/src",
+  "owner": "swn"
+}
+
+DELETE https://localhost:5001/api/movies/9
