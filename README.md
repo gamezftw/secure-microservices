@@ -17,3 +17,9 @@ secure-microservices
 - https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-6.0&tabs=visual-studio#ubuntu-trust-the-certificate-for-service-to-service-communication
 
 - https://www.fearofoblivion.com/setting-up-asp-net-dev-certs-for-wsl
+
+# scaffolding with dotnet cli
+- https://docs.microsoft.com/en-us/aspnet/core/fundamentals/tools/dotnet-aspnet-codegenerator?view=aspnetcore-6.0
+
+# IdentityServer4
+- https://github.com/IdentityServer/IdentityServer4.Quickstart.UI
