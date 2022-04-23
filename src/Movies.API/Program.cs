@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Movies.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication("Bearer")
+  .AddJwtBearer("Bearer", options =>
+      {
+          options.RequireHttpsMetadata = false;
+          options.Authority = "http://localhost:5005";
+          options.TokenValidationParameters = new TokenValidationParameters
+          {
+              ValidateAudience = false
+          };
+      });
+
+builder.Services.AddAuthorization(options =>
+  {
+      options.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "movieClient"));
+  });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,8 +38,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
