@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using System.Text.Json;
-using IdentityModel.Client;
 using Movies.Client.Model;
 
 namespace Movies.Client.ApiServices
@@ -15,19 +13,32 @@ namespace Movies.Client.ApiServices
             _httpClientFactory = httpClientFactory;
         }
 
-        public Task<Movie> CreateMovie(Movie movie)
+        public async Task<Movie> CreateMovie(Movie movie)
         {
-            throw new NotImplementedException();
+            var httpClient = _httpClientFactory.CreateClient("MovieAPIClient");
+
+            var response = await httpClient.PostAsJsonAsync<Movie>($"/api/movies/", movie);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStreamAsync();
+            var responseMovie = await JsonSerializer.DeserializeAsync<Movie>(content);
+
+            return responseMovie;
         }
 
-        public Task DeleteMovie(int id)
+        public async Task DeleteMovie(int id)
         {
-            throw new NotImplementedException();
+            var httpClient = _httpClientFactory.CreateClient("MovieAPIClient");
+
+            var response = await httpClient.GetFromJsonAsync<Movie>($"/api/movies/{id}");
         }
 
-        public Task<Movie> GetMovie(string id)
+        public async Task<Movie> GetMovie(int id)
         {
-            throw new NotImplementedException();
+            var httpClient = _httpClientFactory.CreateClient("MovieAPIClient");
+
+            var movie = await httpClient.GetFromJsonAsync<Movie>($"/api/movies/{id}");
+            return movie;
         }
 
         public async Task<IEnumerable<Movie>> GetMovies()
@@ -42,69 +53,23 @@ namespace Movies.Client.ApiServices
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            var movieList = JsonSerializer.Deserialize<IEnumerable<Movie>>(content);
+            System.Console.WriteLine(content);
+            // var content = await response.Content.ReadAsStreamAsync();
+            var movieList = JsonSerializer.Deserialize<List<Movie>>(content);
             return movieList;
-
-            // var apiCredentials = new ClientCredentialsTokenRequest
-            // {
-            //     Address = "http://localhost:5005/connect/token",
-            //
-            //     ClientId = "movieClient",
-            //     ClientSecret = "secret",
-            //
-            //     Scope = "movieAPI"
-            // };
-            //
-            // var client = new HttpClient();
-            //
-            // // just for test
-            // var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5005");
-            // if (disco.IsError)
-            // {
-            //     return null;
-            // }
-            //
-            // var tokenResponse = await client.RequestClientCredentialsTokenAsync(apiCredentials);
-            // if (tokenResponse.IsError)
-            // {
-            //     return null;
-            // }
-            //
-            //
-            // var apiClient = new HttpClient();
-            //
-            // apiClient.SetBearerToken(tokenResponse.AccessToken);
-            //
-            // // var response = await apiClient.GetAsync("http://localhost:5001/api/movies");
-            // // var content = await response.Content.ReadAsStringAsync();
-            // // response.EnsureSuccessStatusCode();
-            //
-            // var movieList = await apiClient.GetFromJsonAsync<IEnumerable<Movie>>("http://localhost:5001/api/movies");
-            //
-            // if (movieList != null)
-            //     return movieList;
-            // else
-            //     return null;
-            //
-            // var movieList = new List<Movie>();
-            // movieList.Add(
-            //     new Movie
-            //     {
-            //         Id = 1,
-            //         Genre = "Comics",
-            //         Title = "asd",
-            //         Rating = "9.2",
-            //         ImageUrl = "images/src",
-            //         ReleaseDate = DateTime.Now,
-            //         Owner = "swn",
-            //     }
-            // );
-            // return await Task.FromResult(movieList);
         }
 
-        public Task<Movie> UpdateMovie(Movie movie)
+        public async Task<Movie> UpdateMovie(Movie movie)
         {
-            throw new NotImplementedException();
+            var httpClient = _httpClientFactory.CreateClient("MovieAPIClient");
+
+            var response = await httpClient.PutAsJsonAsync<Movie>($"/api/movies/{movie.Id}", movie);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStreamAsync();
+            var responseMovie = await JsonSerializer.DeserializeAsync<Movie>(content);
+
+            return responseMovie;
         }
     }
 }
