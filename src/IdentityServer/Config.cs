@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
@@ -38,7 +40,7 @@ namespace IdentityServer
               AllowedScopes = new List<string>
               {
                 IdentityServerConstants.StandardScopes.OpenId,
-                IdentityServerConstants.StandardScopes.Profile
+                IdentityServerConstants.StandardScopes.Profile,
               }
             }
           };
@@ -61,7 +63,17 @@ namespace IdentityServer
         public static List<TestUser> TestUsers =>
           new List<TestUser>()
           {
-
+            new TestUser
+            {
+                SubjectId = "5BE86359-073C-434B-AD2D-A3932222DABE",
+                Username = "mehmet",
+                Password = "mehmet",
+                Claims = new List<Claim>
+                {
+                    new Claim(JwtClaimTypes.GivenName, "mehmet"),
+                    new Claim(JwtClaimTypes.FamilyName, "ozkaya")
+                }
+            }
           };
     }
 }
