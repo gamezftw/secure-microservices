@@ -1,4 +1,8 @@
+using Movies.Client.ApiServices;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IMovieApiService, MovieApiService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -13,7 +17,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

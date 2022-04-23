@@ -1,5 +1,6 @@
 using System;
 
+// TODO create shared class library for this model
 namespace Movies.Client.Model
 {
     public class Movie
