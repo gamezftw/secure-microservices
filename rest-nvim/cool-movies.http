@@ -1,0 +1,63 @@
+tokenUrl: http://localhost:5005
+authToken: {{response.access_token}}
+
+# @response
+POST {{tokenUrl}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&scope=movieAPI
+&client_id=movieClient
+&client_secret=secret
+
+###
+
+GET http://localhost:5001/{{authToken}}
+
+GET http://localhost:5001/api/movies
+Authorization: Bearer {{authToken}}
+
+### 
+### # @name createComment
+### POST {{baseUrl}}/comments HTTP/1.1
+### Authorization: {{authToken}}
+### Content-Type: application/json
+### 
+### {
+###     "content": "fake content"
+### }
+
+### page: {{response.page}}
+### url: {{response.support.url}}
+### 
+### # normal var
+### foo: 4
+### 
+### #@response
+### GET https://reqres.in/api/users?page=5
+### 
+### GET https://reqres.in/api/users?page={{foo}}
+### 
+### GET https://reqres.in/api/users?page={{page}}
+### 
+### GET {{url}}
+
+###
+### 
+### @commentId = {{createComment.response.body.$.id}}
+### 
+### # @name getCreatedComment
+### GET {{baseUrl}}/comments/{{commentId}} HTTP/1.1
+### Authorization: {{authToken}}
+### 
+### ###
+### 
+### # @name getReplies
+### GET {{baseUrl}}/comments/{{commentId}}/replies HTTP/1.1
+### Accept: application/xml
+### 
+### ###
+### 
+### # @name getFirstReply
+### GET {{baseUrl}}/comments/{{commentId}}/replies/{{getReplies.response.body.//reply[1]/@id}}
+### 
