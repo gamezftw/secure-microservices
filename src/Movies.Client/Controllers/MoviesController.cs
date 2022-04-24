@@ -24,14 +24,14 @@ namespace Movies.Client.Controllers
         public async Task<IActionResult> Index()
         {
             await LogTokenAndClaims().ConfigureAwait(false);
-            return View(await _movieApiService.GetMovies());
+            return base.View(await _movieApiService.GetMovies());
         }
 
         public async Task LogTokenAndClaims()
         {
             var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
 
-            Debug.WriteLine($"Identity toekn: {identityToken}");
+            Debug.WriteLine($"Identity token: {identityToken}");
 
             foreach (var claim in User.Claims)
             {

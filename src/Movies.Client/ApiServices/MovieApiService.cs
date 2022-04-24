@@ -1,5 +1,5 @@
-using System.Text.Json;
 using Movies.Client.Model;
+using System.Text.Json;
 
 namespace Movies.Client.ApiServices
 {
@@ -21,7 +21,7 @@ namespace Movies.Client.ApiServices
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStreamAsync();
-            var responseMovie = await JsonSerializer.DeserializeAsync<Movie>(content);
+            var responseMovie = await System.Text.Json.JsonSerializer.DeserializeAsync<Movie>(content);
 
             return responseMovie;
         }
@@ -46,17 +46,22 @@ namespace Movies.Client.ApiServices
 
             var httpClient = _httpClientFactory.CreateClient("MovieAPIClient");
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "/api/movies/");
+            var movieList = await httpClient.GetFromJsonAsync<IEnumerable<Movie>>("/api/movies/");
 
-            var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-            System.Console.WriteLine(content);
-            // var content = await response.Content.ReadAsStreamAsync();
-            var movieList = JsonSerializer.Deserialize<List<Movie>>(content);
             return movieList;
+
+            // var request = new HttpRequestMessage(HttpMethod.Get, "/api/movies/");
+            //
+            // var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            //
+            // response.EnsureSuccessStatusCode();
+            //
+            // var content = await response.Content.ReadAsStreamAsync();
+            // var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; // doesn't work without this...
+            //
+            // var movieList = JsonSerializer.Deserialize<IEnumerable<Movie>>(content, options)!;
+            // 
+            // return movieList;
         }
 
         public async Task<Movie> UpdateMovie(Movie movie)
@@ -66,10 +71,7 @@ namespace Movies.Client.ApiServices
             var response = await httpClient.PutAsJsonAsync<Movie>($"/api/movies/{movie.Id}", movie);
             response.EnsureSuccessStatusCode();
 
-            var content = await response.Content.ReadAsStreamAsync();
-            var responseMovie = await JsonSerializer.DeserializeAsync<Movie>(content);
-
-            return responseMovie;
+            return movie;
         }
     }
 }
