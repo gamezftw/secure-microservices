@@ -51,7 +51,7 @@ namespace Movies.Client.ApiServices
 
             var httpClient = _httpClientFactory.CreateClient("MovieAPIClient");
 
-            var movieList = await httpClient.GetFromJsonAsync<IEnumerable<Movie>>("/api/movies/");
+            var movieList = await httpClient.GetFromJsonAsync<IEnumerable<Movie>>("/movies");
 
             return movieList;
 

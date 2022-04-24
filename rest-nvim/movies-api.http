@@ -3,12 +3,15 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
 &scope=movieAPI
-&client_id=movieClient
-&client_secret=secret
+&client_id={{client_id}}
+&client_secret={{client_secret}}
 
 ###
 
 GET http://localhost:5001/api/movies
+Authorization: Bearer {{authToken}}
+
+GET http://localhost:5010/movies
 Authorization: Bearer {{authToken}}
 
 GET http://localhost:5001/api/movies/1

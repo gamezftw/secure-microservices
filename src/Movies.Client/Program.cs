@@ -52,7 +52,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<AuthenticationDelegatingHandler>();
 builder.Services.AddHttpClient("MovieAPIClient", client =>
     {
-        client.BaseAddress = new Uri("http://localhost:5001/");
+        client.BaseAddress = new Uri("http://localhost:5010/");
         client.DefaultRequestHeaders.Clear();
         client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
     }).AddHttpMessageHandler<AuthenticationDelegatingHandler>();

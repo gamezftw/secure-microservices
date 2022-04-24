@@ -1,0 +1,24 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/movies",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "5001"
+        }
+      ],
+      "UpstreamPathTemplate": "/movies",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      }
+    }
+  ]
+}
