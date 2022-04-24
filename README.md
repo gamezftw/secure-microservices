@@ -22,4 +22,9 @@ secure-microservices
 - https://docs.microsoft.com/en-us/aspnet/core/fundamentals/tools/dotnet-aspnet-codegenerator?view=aspnetcore-6.0
 
 # IdentityServer4
+
+## UI
 - https://github.com/IdentityServer/IdentityServer4.Quickstart.UI
+
+## EFCore
+- https://identityserver4.readthedocs.io/en/latest/quickstarts/5_entityframework.html#
